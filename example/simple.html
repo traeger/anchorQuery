@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Simple Anchor Test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="../anchorQuery.js"></script>
+  </head>
+  
+  <body>
+    <div id="output"></div>
+    <button id="btn1">store ('hello world')</button>
+    <button id="btn2">store ('an answer', 42)</button>
+  </body>
+  <script>
+    anchorQuery.debug(true)
+    
+    var query_1 = anchorQuery('id1', function(text) {
+      $("#output").html(text)
+    })
+    var query_2 = anchorQuery('id2', function(text, number) {
+      $("#output").html(text + ':' + number)
+    })
+    
+    $('#btn1').click(function() {
+      query_1('hello world')
+    })
+    
+    $('#btn2').click(function() {
+      query_2('an answer', 42)
+    })
+  </script>
+</html>
