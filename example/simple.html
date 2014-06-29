@@ -9,25 +9,25 @@
   
   <body>
     <div id="output"></div>
-    <button id="btn1">store ('hello world')</button>
-    <button id="btn2">store ('an answer', 42)</button>
+    <button id="btn1">store ('hello world') via anchorQuery-ID 1</button>
+    <button id="btn2">store ('an answer', 42) via anchorQuery-ID complex id</button>
   </body>
   <script>
     anchorQuery.debug(true)
     
-    var query_1 = anchorQuery('id1', function(text) {
+    var query_1 = anchorQuery('1', function(text) {
       $("#output").html(text)
     })
-    var query_2 = anchorQuery('id2', function(text, number) {
+    var query_2 = anchorQuery('complex id', function(text, number) {
       $("#output").html(text + ':' + number)
     })
     
     $('#btn1').click(function() {
-      query_1('hello world')
+      query_1('hello world').run()
     })
     
     $('#btn2').click(function() {
-      query_2('an answer', 42)
+      query_2('an answer', 42).run()
     })
   </script>
 </html>

@@ -6,7 +6,7 @@
  *
  */
 
-new function() { // helper scope
+new function() { /* scope */
   if (typeof String.prototype.startsWith != 'function') {
     String.prototype.startsWith = function (str){
       return this.substring(0, str.length) === str;
@@ -15,9 +15,11 @@ new function() { // helper scope
 }
 
 var anchorQuery = function(name, callback) { var lib = anchorQuery._lib
+  /* interface */
+  
   lib.bindQuery(name, callback)
   
-  return function() {
+  return function() { // query
     var args = []
     /* we have to convert the function argument to an array
      * to be able to use array helper functions later on */
@@ -26,7 +28,11 @@ var anchorQuery = function(name, callback) { var lib = anchorQuery._lib
     }
     
     lib.setAnchor([name].concat(args))
-    lib.callCallback(callback, args)
+    return new function() { // run of the parameterized query
+      this.run = function() {
+        lib.callCallback(callback, args)
+      }
+    }
   }
 }
 
@@ -35,13 +41,23 @@ anchorQuery._lib = new function() { var lib = this
     lib._prefix = 'aQ.'
     lib._callbacks = {}
     lib._debugEnabled = false
+    lib._onLoadHandler = []
+    lib._onInitHandler = []
   }
   
-  lib._onload = function() {
-    lib._refreshWithAnchor()
+  lib.onLoad = function() {
+    for(var i = 0, len = lib._onInitHandler.length; i < len; ++i) {
+      lib._onInitHandler[i].onInit()
+    }
+    
+    lib._load()
+    
+    for(var i = 0, len = lib._onLoadHandler.length; i < len; ++i) {
+      lib._onLoadHandler[i].onLoad()
+    }
   }
   
-  lib._refreshWithAnchor = function() {
+  lib._load = function() {
     var anchorData = lib.getAnchor()
     lib.log(anchorData)
     if(anchorData) {
@@ -95,17 +111,17 @@ anchorQuery._lib = new function() { var lib = this
   lib._init()
   
   /* onload hooks */
-  if(jQuery) { // jQuery is supported
-    jQuery(lib._onload)
-  } else {
+  if(jQuery) { // jQuery is supported -> use the jQuery onLoad hook
+    jQuery(lib.onLoad)
+  } else { // use the std onLoad hook
     if(typeof(window.onload) == 'function') {
       var f = window.onload
       window.onload = function() {
         f()
-        lib._onload()
+        lib.onLoad()
       }
     } else {
-      window.onload = lib._onload()
+      window.onload = lib.onLoad()
     }
     
     window.onload
@@ -113,6 +129,36 @@ anchorQuery._lib = new function() { var lib = this
   
   /* interface */
   anchorQuery.debug = function(enableDebug) {
+    /* enable/disable debug */
     lib._debugEnabled = enableDebug
+  }
+  anchorQuery.addOnInit = function(handler) {
+    lib._onInitHandler.push(handler)
+  }
+  anchorQuery.addOnLoad = function(handler) {
+    lib._onLoadHandler.push(handler)
+  }
+}
+
+/* google.maps plugin */
+anchorQuery.google = new function() {}
+anchorQuery.google.maps = new function() { var lib = this;
+  lib.init = function(map) {
+    lib._map = map
+    
+    lib.setFocus = anchorQuery('gmFocus', function(lat, lng, zoom) {
+      lib._map.panTo(new google.maps.LatLng(lat, lng))
+      lib._map.setZoom(parseInt(zoom))
+    })
+    
+    lib._onchange = function() {
+      var center = lib._map.getCenter()
+      var zoom = lib._map.getZoom()
+      
+      lib.setFocus(center.lat(), center.lng(), zoom)
+    }
+    
+    google.maps.event.addListener(lib._map, 'center_changed', lib._onchange)
+    google.maps.event.addListener(lib._map, 'zoom_changed', lib._onchange)
   }
 }
