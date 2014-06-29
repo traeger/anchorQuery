@@ -152,7 +152,10 @@ anchorQuery._lib = new function() { var lib = this
 anchorQuery.google = new function() {}
 anchorQuery.google.maps = new function() { var lib = this;
   lib.init = function(map, initDefaultFocus) {
-    anchorQuery.defaultCallback(initDefaultFocus)
+    if(!!initDefaultFocus) {
+      anchorQuery.defaultCallback(initDefaultFocus)
+    }
+    
     lib._map = map
     
     lib.setFocus = anchorQuery('gmFocus', function(lat, lng, zoom) {
