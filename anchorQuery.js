@@ -43,6 +43,7 @@ anchorQuery._lib = new function() { var lib = this
     lib._debugEnabled = false
     lib._onLoadHandler = []
     lib._onInitHandler = []
+    lib._defaultCallbacks = []
   }
   
   lib.onLoad = function() {
@@ -69,6 +70,10 @@ anchorQuery._lib = new function() { var lib = this
         return
       }
       lib.callCallback(callback, args)
+    } else {
+      for(var i = 0, len = lib._defaultCallbacks.length; i < len; ++i) {
+        lib.callCallback(lib._defaultCallbacks[i])
+      }
     }
   }
   
@@ -138,12 +143,16 @@ anchorQuery._lib = new function() { var lib = this
   anchorQuery.addOnLoad = function(handler) {
     lib._onLoadHandler.push(handler)
   }
+  anchorQuery.defaultCallback = function(callback) {
+    lib._defaultCallbacks.push(callback)
+  }
 }
 
 /* google.maps plugin */
 anchorQuery.google = new function() {}
 anchorQuery.google.maps = new function() { var lib = this;
-  lib.init = function(map) {
+  lib.init = function(map, initDefaultFocus) {
+    anchorQuery.defaultCallback(initDefaultFocus)
     lib._map = map
     
     lib.setFocus = anchorQuery('gmFocus', function(lat, lng, zoom) {

@@ -14,7 +14,7 @@
   <script>
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
-      center: new google.maps.LatLng(52.519, 13.306),
+      center: new google.maps.LatLng(51.0420, 13.7604),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: false,
       streetViewControl: true,
@@ -24,6 +24,8 @@
     });
     
     anchorQuery.debug(true)
-    anchorQuery.google.maps.init(map)
+    anchorQuery.google.maps.init(map, function() {
+      map.panTo(new google.maps.LatLng(52.4834, 13.4066))
+    })
   </script>
 </html>
