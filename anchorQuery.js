@@ -48,13 +48,13 @@ anchorQuery._lib = new function() { var lib = this
   
   lib.onLoad = function() {
     for(var i = 0, len = lib._onInitHandler.length; i < len; ++i) {
-      lib._onInitHandler[i].onInit()
+      lib._onInitHandler[i]()
     }
     
     lib._load()
     
     for(var i = 0, len = lib._onLoadHandler.length; i < len; ++i) {
-      lib._onLoadHandler[i].onLoad()
+      lib._onLoadHandler[i]()
     }
   }
   
