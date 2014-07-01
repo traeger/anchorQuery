@@ -24,8 +24,11 @@
     });
     
     anchorQuery.debug(true)
-    anchorQuery.google.maps.init(map, function() {
-      map.panTo(new google.maps.LatLng(52.4834, 13.4066))
+    $(function() {
+      anchorQuery.google.maps.init(map, function() {
+        map.panTo(new google.maps.LatLng(52.4834, 13.4066))
+      })
+      anchorQuery.load()
     })
   </script>
 </html>

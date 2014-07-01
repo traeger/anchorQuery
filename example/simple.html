@@ -21,6 +21,7 @@
     var query_2 = anchorQuery('complex id', function(text, number) {
       $("#output").html(text + ':' + number)
     })
+    anchorQuery.load()
     
     $('#btn1').click(function() {
       query_1('hello world').run()

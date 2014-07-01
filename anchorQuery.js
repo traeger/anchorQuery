@@ -46,18 +46,6 @@ anchorQuery._lib = new function() { var lib = this
     lib._defaultCallbacks = []
   }
   
-  lib.onLoad = function() {
-    for(var i = 0, len = lib._onInitHandler.length; i < len; ++i) {
-      lib._onInitHandler[i]()
-    }
-    
-    lib._load()
-    
-    for(var i = 0, len = lib._onLoadHandler.length; i < len; ++i) {
-      lib._onLoadHandler[i]()
-    }
-  }
-  
   lib._load = function() {
     var anchorData = lib.getAnchor()
     lib.log(anchorData)
@@ -115,37 +103,15 @@ anchorQuery._lib = new function() { var lib = this
   /* init */
   lib._init()
   
-  /* onload hooks */
-  if(jQuery) { // jQuery is supported -> use the jQuery onLoad hook
-    jQuery(lib.onLoad)
-  } else { // use the std onLoad hook
-    if(typeof(window.onload) == 'function') {
-      var f = window.onload
-      window.onload = function() {
-        f()
-        lib.onLoad()
-      }
-    } else {
-      window.onload = lib.onLoad()
-    }
-    
-    window.onload
-  }
-  
   /* interface */
   anchorQuery.debug = function(enableDebug) {
     /* enable/disable debug */
     lib._debugEnabled = enableDebug
   }
-  anchorQuery.addOnInit = function(handler) {
-    lib._onInitHandler.push(handler)
-  }
-  anchorQuery.addOnLoad = function(handler) {
-    lib._onLoadHandler.push(handler)
-  }
   anchorQuery.defaultCallback = function(callback) {
     lib._defaultCallbacks.push(callback)
   }
+  anchorQuery.load = lib._load
 }
 
 /* google.maps plugin */
