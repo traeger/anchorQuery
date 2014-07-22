@@ -1,10 +1,10 @@
 anchorQuery
 ===========
 
-anchorQuery is a simple way to remember complex stats in the url using anchors.`
+anchorQuery is a simple way to remember complex stats in the url using anchors.
 
 In the following anchorQuery is used to remember the current map position and zoom-level in the url.
-If no position and zoomlevel is stored in the url the coordinates (52.4834, 13.4066) are used.
+If no position and zoomlevel is stored in the url the coordinates `(52.4834, 13.4066)` are used.
 
 ```
 var map = new google.maps.Map(...)
