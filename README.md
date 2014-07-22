@@ -17,6 +17,6 @@ $(function() {
 })
 ```
 
-Check out http://doenervote.de/ for an productive example.
+Check out http://doenervote.de/ for an productive example. http://doenervote.de/#aQ.gmFocus/52.48207036976735/13.433930559411/20 pans to one of the best Kebab's in Berlin.
 
 Check out also other examples in [examples](example).
