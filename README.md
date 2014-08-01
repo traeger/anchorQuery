@@ -10,10 +10,10 @@ If no position and zoomlevel is stored in the url, it is panned to `(52.4834, 13
 var map = new google.maps.Map(...)
 
 $(function() {
-  anchorQuery.google.maps.init(map, function() {
+  anchorQuery.google.maps.init(map, function() { // register to use anchorQuery for this map
     map.panTo(new google.maps.LatLng(52.4834, 13.4066)) // default location
   })
-  anchorQuery.load()
+  anchorQuery.load() // load all informations from the anchortag inside the url
 })
 ```
 
