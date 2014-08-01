@@ -13,7 +13,7 @@ $(function() {
   anchorQuery.google.maps.init(map, function() { // register to use anchorQuery for this map
     map.panTo(new google.maps.LatLng(52.4834, 13.4066)) // default location
   })
-  anchorQuery.load() // load all informations from the anchortag inside the url
+  anchorQuery.load() // load all informations from the anchortag of the url
 })
 ```
 
