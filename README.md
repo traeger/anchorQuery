@@ -11,7 +11,7 @@ var map = new google.maps.Map(...)
 
 $(function() {
   anchorQuery.google.maps.init(map, function() {
-    map.panTo(new google.maps.LatLng(52.4834, 13.4066))
+    map.panTo(new google.maps.LatLng(52.4834, 13.4066)) // default location
   })
   anchorQuery.load()
 })
