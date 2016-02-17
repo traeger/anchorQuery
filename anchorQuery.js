@@ -87,7 +87,18 @@ anchorQuery._lib = new function() { var lib = this
      */
     var uriHash = saveValues.join('/')
     var uriHashPrefixed = lib._prefix + uriHash
-    location.hash = uriHashPrefixed
+    if(!!history.replaceState) {
+      if(location.hash == '') {
+        urlNew = document.location.href+'#'+uriHashPrefixed
+      } else {
+        urlNew = document.location.href.replace(/#(.*)$/g, '#'+uriHashPrefixed)
+      }
+      
+      history.replaceState(undefined, undefined, urlNew)
+    }
+    else {
+      location.hash = uriHashPrefixed
+    }
   }
   
   lib.getAnchor = function() {
